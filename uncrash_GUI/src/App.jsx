@@ -1,60 +1,21 @@
-/*import React from "react";
-import { Box, Button, Typography } from "@mui/material";
-
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#007BFF", // Replace with your primary color
-    },
-    secondary: {
-      main: "#6C757D", // Replace with your secondary color
-    },
-    background: {
-      default: "#F8F9FA", // Replace with your background color
-    },
-    error: {
-      main: "#DC3545", // Replace with your error color
-    },
-  },
-});
-
-function App() {
-  return (
-    <>
-      <Box
-        sx={{
-          height: "100vh", // Make the box take the full viewport height
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Typography variant="h4" gutterBottom align="center">
-          Welcome to Uncrashout
-        </Typography>
-
-        <Box sx={{ display: "flex", gap: 2 }}>
-          <Button variant="contained" color="primary">
-            Login
-          </Button>
-          <Button variant="outlined" color="secondary">
-            Continue as Guest
-          </Button>
-        </Box>
-      </Box>
-    </>
-  );
-}
-
-export default App;*/
-
 import React from "react";
-import ReactDOM from "react-dom/client";
-import { Button, Typography, Box, Container, CssBaseline } from "@mui/material";
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Button,
+  Box,
+  Grid,
+  Card,
+  CardContent,
+  Container,
+  CssBaseline,
+} from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { Routes, Route, useNavigate } from "react-router-dom";
+import GetStarted from "./friend";
+import Navigate from "./Navigate";
+
 
 const theme = createTheme({
   palette: {
@@ -87,39 +48,119 @@ const theme = createTheme({
 });
 
 function App() {
+  const navigate = useNavigate();
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Container
-        maxWidth="sm"
-        sx={{
-          height: "100vh",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          textAlign: "center",
-          backgroundColor: "background.default",
-        }}
-      >
-        <Typography variant="h4" gutterBottom color="text.primary">
-          Welcome to Uncrashout
+
+      {/* Navbar */}
+      <AppBar position="static">
+        <Toolbar>
+          <Typography variant="h6" style={{ flexGrow: 1 }}>
+            Uncrashout
+          </Typography>
+          <Button color="inherit">About</Button>
+          <Button color="inherit">Help</Button>
+          <Button color="inherit">Contact</Button>
+        </Toolbar>
+      </AppBar>
+
+      {/* Routes */}
+      <Routes>
+        {/* Homepage */}
+        <Route
+          path="/"
+          element={
+            <Container
+              maxWidth="sm"
+              sx={{
+                height: "100vh",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+                textAlign: "center",
+                backgroundColor: "background.default",
+              }}
+            >
+              <Typography variant="h4" gutterBottom color="text.primary">
+                Welcome to Uncrashout
+              </Typography>
+              <Typography variant="h6" color="text.secondary" gutterBottom>
+                Audio-guided navigation
+              </Typography>
+
+              {/* Action Buttons */}
+              <Box sx={{ display: "flex", gap: 2, marginTop: 2 }}>
+                <Button 
+                  variant="contained" 
+                  color="primary"
+                  onClick={() => navigate("/Navigate")}
+                >
+                  Navigate
+                </Button>
+                <Button
+                  variant="outlined"
+                  color="secondary"
+                  onClick={() => navigate("/get-started")}
+                >
+                  I'm a friend of a user
+                </Button>
+                <Button 
+                  variant="contained" 
+                  color="primary">
+                  Learn More
+                </Button>
+              </Box>
+
+              {/* Feature Highlights */}
+              <Grid container spacing={2} justifyContent="center" marginTop={4}>
+                <Grid item xs={12} sm={4}>
+                  <Card>
+                    <CardContent>
+                      <Typography variant="h6" gutterBottom>
+                        Audio-guided navigation
+                      </Typography>
+                      <Typography variant="body2">
+                        With just your voice, uncrashout can guide you across floor plans
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <Card>
+                    <CardContent>
+                      <Typography variant="h6" gutterBottom>
+                        Fast Support
+                      </Typography>
+                      <Typography variant="body2">
+                        Our team is here to help 24/7.
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+              </Grid>
+            </Container>
+          }
+        />
+
+        {/* Get Started Page */}
+        <Route path="/get-started" element={<GetStarted />} />
+
+        <Route path="/navigate" element={<Navigate />} />
+      </Routes>
+
+      {/* Footer */}
+      <Box mt={4} py={2} textAlign="center" bgcolor="background.default">
+        <Typography variant="body2" color="text.secondary">
+          © 2025 Uncrashout. All rights reserved.
         </Typography>
-        <Box sx={{ display: "flex", gap: 2 }}>
-          <Button variant="contained" color="primary">
-            Login
-          </Button>
-          <Button variant="outlined" color="secondary">
-            Continue as Guest
-          </Button>
-        </Box>
-      </Container>
+      </Box>
     </ThemeProvider>
   );
 }
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(<App />);
 export default App;
 
 
