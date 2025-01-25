@@ -1,0 +1,7 @@
+opencv-python>=4.11.0
+numpy>=1.26.0
+torch>=2.5.0
+torchvision>=0.20.0
+ultralytics>=8.3.0
+pyttsx3     
+scipy>=1.15.0
