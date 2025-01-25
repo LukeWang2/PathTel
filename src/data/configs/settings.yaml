@@ -20,12 +20,37 @@ model:
     - toilet
     - sink
 
+llava:
+  path: "data/models/llava-v1.5-7b-q4.gguf"
+  max_tokens: 200
+  temperature: 0.7
 # Audio Settings
 audio:
   language: "en"
   rate: 150  # Words per minute
   volume: 0.9
   voice_id: 0  # Default voice
+
+# Speech Recognition Settings
+speech:
+  language: "en"  # Language code for speech recognition
+  energy_threshold: 4000  # Minimum audio energy to detect
+  timeout: 5  # seconds to listen for
+  commands:  # List of command phrases to recognize
+    - "where is"
+    - "find"
+    - "locate"
+    - "help me find"
+    - "guide me to"
+    - "take me to"
+    - "is there"
+  objects_of_interest:  # Objects that can be searched for via voice commands
+    - door
+    - chair
+    - stairs
+    - exit
+    - bathroom
+    - sink
 
 # Navigation Settings
 navigation:

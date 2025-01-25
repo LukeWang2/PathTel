@@ -13,6 +13,7 @@ class Paths:
     # Files
     MODEL_PATH = MODELS_DIR / "yolov8n.pt"
     CONFIG_PATH = CONFIGS_DIR / "settings.yaml"
+    LLAVA_PATH = MODELS_DIR / "llava-v1.5-7b-q4.gguf"
 
     @classmethod
     def ensure_dirs_exist(cls):
@@ -21,5 +22,6 @@ class Paths:
             cls.DATA_DIR,
             cls.MODELS_DIR,
             cls.CONFIGS_DIR,
+            cls.LLAVA_PATH,
         ]:
             directory.mkdir(parents=True, exist_ok=True)
