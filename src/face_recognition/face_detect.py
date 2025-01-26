@@ -46,7 +46,7 @@ def find_face(frame):
     face_encodings = []
     face_names = []
     # frame = cv2.imread(frame)
-    frame = base64_to_image(frame)
+    #frame = base64_to_image(frame)
     small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
 
     # Convert the image from BGR color (which OpenCV uses) to RGB color (which face_recognition uses)

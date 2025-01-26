@@ -133,10 +133,7 @@ function App() {
               <Grid container spacing={2} justifyContent="center" marginTop={4}>
                   <Card>
                     <CardContent>
-                      <Typography variant="h6" gutterBottom>
-                        Audio-guided navigation
-                      </Typography>
-                      <Typography variant="body2">
+                      <Typography variant="body1">
                         With just your voice, uncrashout can guide you across floor plans
                       </Typography>
                     </CardContent>

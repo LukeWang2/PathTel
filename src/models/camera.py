@@ -3,7 +3,7 @@ import cv2
 
 class Camera:
     def __init__(self):
-        self.device = cv2.VideoCapture(1)
+        self.device = cv2.VideoCapture(0)
         self.is_running = False
 
         if not self.device.isOpened():
@@ -13,6 +13,10 @@ class Camera:
         if not self.is_running:
             self.is_running = True
         ret, frame = self.device.read()
+        if ret:
+            print("Camera frame captured successfully.")
+        else:
+            print("Failed to capture camera frame.")
         return frame if ret else None
 
     def release(self):

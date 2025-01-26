@@ -27,6 +27,12 @@ const SavePictureApp = () => {
     };
 
     startCamera();
+
+    // WebSocket connection and start_stream emission
+    socket.on("connect", () => {
+      console.log("Connected to WebSocket server");
+      socket.emit("start_stream"); // Emit the start_stream event to begin streaming frames
+    });
   }, []);
 
   // Take a picture on button click
