@@ -12,14 +12,26 @@ camera = Camera()
 
 def generate_frames():
     while True:
-        frame = camera.get_frame()
-        if not frame.any():
+        try:
+            frame = camera.get_frame()
+            if frame is None or frame.size == 0:
+                continue
+
+            _, buffer = cv2.imencode('.jpg', frame)
+            frame_data = base64.b64encode(buffer).decode('utf-8')
+            socketio.emit('video_frame', {'frame': frame_data})
+        except Exception as e:
+            print(f"Error in generate_frames: {e}")
             continue
 
-        _, buffer = cv2.imencode('.jpg', frame)
-        frame_data = base64.b64encode(buffer).decode('utf-8')
-        socketio.emit('video_frame', {'frame': frame_data})
-        time.sleep(0.03)  # Frame rate
+        # frame = camera.get_frame()
+        # if frame is None or frame.size == 0:
+        #     continue
+
+        # _, buffer = cv2.imencode('.jpg', frame)
+        # frame_data = base64.b64encode(buffer).decode('utf-8')
+        # socketio.emit('video_frame', {'frame': frame_data})
+        # time.sleep(0.03)  # Frame rate
 
 @socketio.on('start_stream')
 def start_stream():
