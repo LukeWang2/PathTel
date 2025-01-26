@@ -1,4 +1,5 @@
 from ultralytics import YOLO
+
 # from llama_cpp import Llama
 from PIL import Image
 import numpy as np
@@ -13,7 +14,9 @@ from openai import OpenAI
 import io
 import base64
 import pyttsx3
-from face_recognition.face_detect import * 
+
+# from face_recognition.face_detect import *
+
 
 class VisionService:
     def __init__(self):
@@ -119,14 +122,14 @@ class VisionService:
     def get_llava_guidance(self, frame, command=None):
         """Get navigation guidance from LLaVA."""
         try:
-            prompt=self.generate_llava_prompt()
+            prompt = self.generate_llava_prompt()
             # Convert OpenCV frame (BGR) to PIL Image (RGB)
             image = Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
-            
+
             # Save the PIL image to a BytesIO object
             buffer = io.BytesIO()
             image.save(buffer, format="JPEG")
-            
+
             # Encode the bytes as a Base64 string
             base64_image = base64.b64encode(buffer.getvalue()).decode("utf-8")
             response = self.client.chat.completions.create(
@@ -155,7 +158,7 @@ class VisionService:
             print(f"Error getting LLaVA guidance: {str(e)}")
             return None
 
-    def process_frame(self, speech_input):
+    def process_frame(self, speech_input=None):
         """Process a single frame from the camera."""
         # Skip frame processing if audio is speaking
         if self.audio.is_busy():
@@ -163,12 +166,11 @@ class VisionService:
 
         if not self.is_running:
             self.start()
-        print(self.completed)
+        # print(self.completed)
         if not self.completed:
             return
-        
+
         self.completed = False
-        
 
         frame = self.camera.get_frame()
         if frame is not None:
@@ -195,17 +197,16 @@ class VisionService:
                 # Combine warnings with LLaVA guidance
                 if warnings:
                     guidance = "; ".join(warnings) + ". " + guidance
-                
-                faces = []
-                faces = find_face(frame)
-                if faces:
-                    for face in faces:
-                        guidance += face + " is nearby."
 
-                self.audio.speak(guidance, speech_input)
+                # faces = []
+                # faces = find_face(frame)
+                # if faces:
+                #     for face in faces:
+                #         guidance += face + " is nearby."
+
+                self.audio.speak(guidance)  # , speech_input)
                 self.current_command = None
                 self.completed = True
-
 
     def handle_command(self, command):
         """Handle voice commands."""

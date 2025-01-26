@@ -5,6 +5,7 @@ from utils.model_download import download_models
 from models.speech_input import SpeechInput
 import threading
 import time
+import traceback
 
 # Global variable to track if audio thread is running
 video_thread_running = False
@@ -115,7 +116,7 @@ def main():
         )
 
         # Start both threads
-        audio_thread.start()
+        # audio_thread.start()
         print("Audio thread started.")
         video_thread.start()
         print("Video thread started.")
@@ -143,9 +144,9 @@ def main():
             vision_service.stop()
 
         # Wait for threads to finish
-        if "audio_thread" in locals() and audio_thread.is_alive():
-            audio_thread.join()
-            print("Audio thread joined.")
+        # if "audio_thread" in locals() and audio_thread.is_alive():
+        # audio_thread.join()
+        # print("Audio thread joined.")
         if "video_thread" in locals() and video_thread.is_alive():
             video_thread.join()
             print("Video thread joined.")

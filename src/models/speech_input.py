@@ -1,4 +1,4 @@
-# from RealtimeSTT import AudioToTextRecorder
+from RealtimeSTT import AudioToTextRecorder
 from constants.config import Config
 
 
