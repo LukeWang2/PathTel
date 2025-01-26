@@ -12,6 +12,7 @@ from dotenv import load_dotenv
 from openai import OpenAI
 import io
 import base64
+import pyttsx3
 
 
 class VisionService:
@@ -33,6 +34,7 @@ class VisionService:
         self.current_command = None
         self.frame_count = 0
         self.known_objects = {}
+        self.completed = True
 
     def start(self):
         """Initialize camera if not already running."""
@@ -104,6 +106,7 @@ class VisionService:
             return f"""You are an indoor navigation assistant helping a user navigate. 
             Based on the image, {command}
             Provide clear, concise directions using landmarks and spatial references.
+            Make it a short sentence that is maximum 2 sentences.
             Focus on safety and clear navigation instructions.
             Describe the scene and suggest the best path forward."""
         else:
@@ -154,8 +157,18 @@ class VisionService:
 
     def process_frame(self):
         """Process a single frame from the camera."""
+        # Skip frame processing if audio is speaking
+        if self.audio.is_busy():
+            return
+
         if not self.is_running:
             self.start()
+        print(self.completed)
+        if not self.completed:
+            return
+        
+        self.completed = False
+        
 
         frame = self.camera.get_frame()
         if frame is not None:
@@ -182,9 +195,10 @@ class VisionService:
                 # Combine warnings with LLaVA guidance
                 if warnings:
                     guidance = "; ".join(warnings) + ". " + guidance
-
                 self.audio.speak(guidance)
                 self.current_command = None
+                self.completed = True
+
 
     def handle_command(self, command):
         """Handle voice commands."""

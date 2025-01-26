@@ -5,7 +5,7 @@ from utils.model_download import download_models
 from models.speech_input import SpeechInput
 import threading
 import time
-
+import traceback
 
 def process_video(vision_service, stop_event):
     """Process video in a separate thread."""
@@ -17,7 +17,9 @@ def process_video(vision_service, stop_event):
             vision_service.process_frame()
             time.sleep(3)  # Small delay to prevent CPU overuse
         except Exception as e:
-            print(f"Error in video thread: {str(e)}")
+            print(f"Error in video thread: {e}")
+            traceback.print_exc()
+
 
 
 def process_audio(speech_input, vision_service, stop_event):
