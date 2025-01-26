@@ -155,7 +155,7 @@ class VisionService:
             print(f"Error getting LLaVA guidance: {str(e)}")
             return None
 
-    def process_frame(self):
+    def process_frame(self, speech_input):
         """Process a single frame from the camera."""
         # Skip frame processing if audio is speaking
         if self.audio.is_busy():
@@ -202,7 +202,7 @@ class VisionService:
                     for face in faces:
                         guidance += face + " is nearby."
 
-                self.audio.speak(guidance)
+                self.audio.speak(guidance, speech_input)
                 self.current_command = None
                 self.completed = True
 

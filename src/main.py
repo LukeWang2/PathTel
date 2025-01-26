@@ -5,26 +5,58 @@ from utils.model_download import download_models
 from models.speech_input import SpeechInput
 import threading
 import time
-import traceback
 
-def process_video(vision_service, stop_event):
+# Global variable to track if audio thread is running
+video_thread_running = False
+audio_thread_running = False
+audio_thread_lock = threading.Lock()  # Lock for thread safety
+video_thread_lock = threading.Lock()
+
+
+def process_video(vision_service, speech_input, stop_event):
     """Process video in a separate thread."""
-    print("Starting video processing thread...")
-    if not vision_service.is_running:  # Check if vision service is running
-            vision_service.start()
+    global video_thread_running
+
+    with video_thread_lock:
+        if video_thread_running:
+            print("Video thread is already running.")
+            return  # Prevent starting the thread again
+
+        video_thread_running = True
+        print("Starting video processing thread...")
+
+    vision_service.start()  # Explicitly start the vision service
+
     while not stop_event.is_set():
         try:
-            vision_service.process_frame()
+            vision_service.process_frame(speech_input)
             time.sleep(3)  # Small delay to prevent CPU overuse
+
         except Exception as e:
             print(f"Error in video thread: {e}")
             traceback.print_exc()
 
+    with video_thread_lock:
+        video_thread_running = False  # Reset the flag when the thread stops
+        print("Video processing thread has stopped.")
+
+    with video_thread_lock:
+        video_thread_running = False  # Reset the flag when the thread stops
+        print("Video processing thread has stopped.")
 
 
 def process_audio(speech_input, vision_service, stop_event):
     """Process audio in a separate thread."""
-    print("Starting audio processing thread...")
+    global audio_thread_running
+
+    with audio_thread_lock:
+        if audio_thread_running:
+            print("Audio thread is already running.")
+            return  # Prevent starting the thread again
+
+        audio_thread_running = True
+        print("Starting audio processing thread...")
+
     speech_input.start_listening()
 
     while not stop_event.is_set():
@@ -37,6 +69,10 @@ def process_audio(speech_input, vision_service, stop_event):
 
         except Exception as e:
             print(f"Error in audio thread: {str(e)}")
+
+    with audio_thread_lock:
+        audio_thread_running = False  # Reset the flag when the thread stops
+        print("Audio processing thread has stopped.")
 
 
 def initialize_system():
@@ -75,17 +111,19 @@ def main():
         # )
 
         video_thread = threading.Thread(
-            target=process_video, args=(vision_service, stop_event)
+            target=process_video, args=(vision_service, speech_input, stop_event)
         )
 
         # Start both threads
-        # audio_thread.start()
+        audio_thread.start()
+        print("Audio thread started.")
         video_thread.start()
+        print("Video thread started.")
 
         # Wait for keyboard interrupt
         try:
             while True:
-                time.sleep(0.1)
+                time.sleep(1)
         except KeyboardInterrupt:
             print("\nShutting down...")
             stop_event.set()
@@ -107,8 +145,10 @@ def main():
         # Wait for threads to finish
         if "audio_thread" in locals() and audio_thread.is_alive():
             audio_thread.join()
+            print("Audio thread joined.")
         if "video_thread" in locals() and video_thread.is_alive():
             video_thread.join()
+            print("Video thread joined.")
 
 
 if __name__ == "__main__":
