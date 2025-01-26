@@ -123,8 +123,21 @@ def run_nav(start, goal):
         print("No path found.")
     else:
         visualize_path_matplotlib(map, path, title="A* Path (Matplotlib)")
+        
+def get_end(location:str):
+    if location =="Leacock 132":
+        return (791,514)
+    elif location =="Elevator":
+        return (478,865)
+    elif location =="Leacock 132 back entrance":
+        return (1284,77)
+    elif location =="Arts building":
+        return (1336,470)
+    elif location =="Emergency":
+        return (1250,629)
+    return (609,817)
 
-def get_qr(location):
+def get_qr(location:int):
     if location==1:
         return (684,546)
     elif location ==2:
