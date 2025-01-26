@@ -3,8 +3,9 @@ import cv2
 
 class Camera:
     def __init__(self):
-        self.device = cv2.VideoCapture(0)
+        self.device = cv2.VideoCapture(1)
         self.is_running = False
+
         if not self.device.isOpened():
             raise IOError("Could not access camera. Please check camera permissions")
 
