@@ -26,8 +26,14 @@ class Config:
     def get_model_settings(self):
         return self.settings.get("model", {})
 
+    def get_llava_settings(self):
+        return self.settings.get("llava", {})
+
     def get_audio_settings(self):
         return self.settings.get("audio", {})
 
     def get_navigation_settings(self):
         return self.settings.get("navigation", {})
+
+    def get_speech_settings(self):
+        return self.settings.get("speech", {})
