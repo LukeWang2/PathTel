@@ -20,7 +20,6 @@ import PersonIcon from "@mui/icons-material/Person";
 import Face from "./face"; // Import the Face component
 
 
-
 const theme = createTheme({
   palette: {
     primary: {
@@ -95,25 +94,11 @@ function App() {
                 Audio-guided navigation
               </Typography>
 
-              
-              <Box
-                sx={{
-                  display: "flex",
-                  gap: 2,
-                  marginTop: 2,
-                  "& .MuiButton-contained:hover": {
-                    backgroundColor: "#0056b3", // Darker shade of blue for the hover
-                  },
-                  "& .MuiButton-outlined:hover": {
-                    borderColor: "#0056b3", // Highlighted border on hover
-                    color: "#0056b3",
-                  },
-                }}
-              >
-                <Button
-                  variant="contained"
+              {/* Action Buttons */}
+              <Box sx={{ display: "flex", gap: 2, marginTop: 2 }}>
+                <Button 
+                  variant="contained" 
                   color="primary"
-                  startIcon={<NavigationRoundedIcon />}
                   onClick={() => navigate("/Navigate")}
                 >
                   Navigate
@@ -121,13 +106,11 @@ function App() {
                 <Button
                   variant="outlined"
                   color="secondary"
-                  startIcon={<PersonIcon />}
                   onClick={() => navigate("/get-started")}
                 >
                   I'm a friend of a user
                 </Button>
               </Box>
-
 
               {/* Feature Highlights */}
               <Grid container spacing={2} justifyContent="center" marginTop={4}>

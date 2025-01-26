@@ -11,26 +11,26 @@ def download_models():
         model.save(str(Paths.MODEL_PATH))
 
     """Download the LLaVA model if not already present."""
-    if not os.path.exists(Paths.LLAVA_PATH):
-        os.makedirs("models", exist_ok=True)
+    # if not os.path.exists(Paths.LLAVA_PATH):
+    #     os.makedirs("models", exist_ok=True)
 
-        url = "https://huggingface.co/mys/ggml_llava-v1.5-7b/resolve/main/ggml-model-q4_k.gguf"
+    #     url = "https://huggingface.co/mys/ggml_llava-v1.5-7b/resolve/main/ggml-model-q4_k.gguf"
 
-        print("Downloading LLaVA model...")
-        response = requests.get(url, stream=True)
-        total_size = int(response.headers.get("content-length", 0))
+    #     print("Downloading LLaVA model...")
+    #     response = requests.get(url, stream=True)
+    #     total_size = int(response.headers.get("content-length", 0))
 
-        with open(Paths.LLAVA_PATH, "wb") as f, tqdm(
-            total=total_size,
-            unit="iB",
-            unit_scale=True,
-            unit_divisor=1024,
-        ) as pbar:
-            for data in response.iter_content(chunk_size=1024):
-                size = f.write(data)
-                pbar.update(size)
+    #     with open(Paths.LLAVA_PATH, "wb") as f, tqdm(
+    #         total=total_size,
+    #         unit="iB",
+    #         unit_scale=True,
+    #         unit_divisor=1024,
+    #     ) as pbar:
+    #         for data in response.iter_content(chunk_size=1024):
+    #             size = f.write(data)
+    #             pbar.update(size)
 
-    return str(Paths.MODEL_PATH), str(Paths.LLAVA_PATH)
+    return str(Paths.MODEL_PATH)
 
 
 if __name__ == "__main__":
