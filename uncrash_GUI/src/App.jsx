@@ -62,7 +62,7 @@ function App() {
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" style={{ flexGrow: 1 }}>
-            Uncrashout
+            PathTel
           </Typography>
           <Button color="inherit">About</Button>
           <Button color="inherit">Help</Button>
@@ -89,7 +89,7 @@ function App() {
               }}
             >
               <Typography variant="h4" gutterBottom color="text.primary">
-                Welcome to Uncrashout
+                Welcome to PathTel
               </Typography>
               <Typography variant="h6" color="text.secondary" gutterBottom>
                 Audio-guided navigation
@@ -134,7 +134,7 @@ function App() {
                   <Card>
                     <CardContent>
                       <Typography variant="body1">
-                        With just your voice, uncrashout can guide you across floor plans
+                        With aided computer vision, PathTel can guide you across floor plans
                       </Typography>
                     </CardContent>
                   </Card>
@@ -152,7 +152,7 @@ function App() {
       {/* Footer */}
       <Box mt={4} py={2} textAlign="center" bgcolor="background.default">
         <Typography variant="body2" color="text.secondary">
-          © 2025 Uncrashout. All rights reserved.
+          © 2025 PathTel. All rights reserved.
         </Typography>
       </Box>
     </ThemeProvider>
