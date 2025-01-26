@@ -1,5 +1,9 @@
 import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { io } from "socket.io-client";
+
+// Connect to the WebSocket server
+const socket = io("http://localhost:4000");
 
 const SavePictureApp = () => {
   const videoRef = useRef(null);
@@ -7,6 +11,7 @@ const SavePictureApp = () => {
   const [image, setImage] = useState(null);
   const [imageName, setImageName] = useState("");
   const navigate = useNavigate();
+  
 
   // Start the camera when the component mounts
   React.useEffect(() => {
@@ -63,16 +68,22 @@ const SavePictureApp = () => {
       alert("Please enter a name for the picture.");
       return;
     }
-    // Create a download link and trigger it
-    const link = document.createElement("a");
-    link.href = image;
-    link.download = `${imageName}.png`;
-    link.click();
-    alert(`Picture saved as ${imageName}.png`);
-    setImage(null); // Clear the image preview after saving
-    setImageName(""); // Clear the input field
-    retakePicture(); // Restart the camera
+  
+    // Send the image and name to the backend via WebSocket
+    socket.emit("upload_image", { image, name: imageName });
+  
+    // Handle response from the server
+    socket.on("upload_response", (response) => {
+      if (response.status === "success") {
+        alert(`Picture saved and processed as ${imageName}.png`);
+        setImage(null); // Clear the image preview
+        setImageName(""); // Clear the input field
+      } else {
+        alert(`Error: ${response.message}`);
+      }
+    });
   };
+  
 
   return (
     <div style={{ textAlign: "center", padding: "20px" }}>
