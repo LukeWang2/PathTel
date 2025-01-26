@@ -89,6 +89,7 @@ def astar(nav_map, start, goal):
 
 
 def visualize_path_matplotlib(nav_map, path, title="A* Path"):
+    
     plt.imshow(nav_map, cmap="gray_r", origin="upper")
     px = [p[0] for p in path]
     py = [p[1] for p in path]
@@ -123,5 +124,22 @@ def run_nav(start, goal):
     else:
         visualize_path_matplotlib(map, path, title="A* Path (Matplotlib)")
 
+def get_qr(location):
+    if location==1:
+        return (684,546)
+    elif location ==2:
+        return (685,624)
+    elif location ==3:
+        return (848,551)
+    elif location ==4:
+        return (848, 625)
+    elif location ==5:
+        return (1011, 553)
+    elif location ==6:
+        return (1011,624)
+    elif location ==7:
+        return (1175,552)
+    elif location ==8:
+        return (1175,625)
 
 map = load_occupancy_map(Paths.NAV_MAP)

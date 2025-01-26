@@ -1,7 +1,7 @@
 import React from "react";
 import { Typography, Container, Box, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-
+import SavePictureApp from "./face";
 function GetStarted() {
   const navigate = useNavigate();
 
@@ -27,14 +27,18 @@ function GetStarted() {
       </Typography>
 
       <Box sx={{ display: "flex", justifyContent: "center", marginTop: 2 }}>
-        <Button variant="outlined" color="primary">
-          Scan My Face
-        </Button>
+      <Button
+        variant="outlined"
+        color="primary"
+        onClick={() => navigate("/face")}
+      >
+        Scan My Face
+      </Button>
       </Box>
       
       <Box sx={{ display: "flex", justifyContent: "center", marginTop: 2 }}>
         <Button variant="outlined" color="primary" onClick={() => navigate("/")}>
-          Back to Home
+          Return to Home
         </Button>
       </Box>
 

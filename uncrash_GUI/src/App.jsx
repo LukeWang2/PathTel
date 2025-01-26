@@ -15,6 +15,9 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import GetStarted from "./friend";
 import Navigate from "./Navigate";
+import NavigationRoundedIcon from "@mui/icons-material/NavigationRounded";
+import PersonIcon from "@mui/icons-material/Person";
+import Face from "./face"; // Import the Face component
 
 
 const theme = createTheme({
@@ -58,7 +61,7 @@ function App() {
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" style={{ flexGrow: 1 }}>
-            Uncrashout
+            PathTel
           </Typography>
           <Button color="inherit">About</Button>
           <Button color="inherit">Help</Button>
@@ -85,7 +88,7 @@ function App() {
               }}
             >
               <Typography variant="h4" gutterBottom color="text.primary">
-                Welcome to Uncrashout
+                Welcome to PathTel
               </Typography>
               <Typography variant="h6" color="text.secondary" gutterBottom>
                 Audio-guided navigation
@@ -113,11 +116,8 @@ function App() {
               <Grid container spacing={2} justifyContent="center" marginTop={4}>
                   <Card>
                     <CardContent>
-                      <Typography variant="h6" gutterBottom>
-                        Audio-guided navigation
-                      </Typography>
-                      <Typography variant="body2">
-                        With just your voice, uncrashout can guide you across floor plans
+                      <Typography variant="body1">
+                        With aided computer vision, PathTel can guide you across floor plans
                       </Typography>
                     </CardContent>
                   </Card>
@@ -128,14 +128,14 @@ function App() {
 
         {/* Get Started Page */}
         <Route path="/get-started" element={<GetStarted />} />
-
+        <Route path="/face" element={<Face />} />
         <Route path="/navigate" element={<Navigate />} />
       </Routes>
 
       {/* Footer */}
       <Box mt={4} py={2} textAlign="center" bgcolor="background.default">
         <Typography variant="body2" color="text.secondary">
-          © 2025 Uncrashout. All rights reserved.
+          © 2025 PathTel. All rights reserved.
         </Typography>
       </Box>
     </ThemeProvider>
