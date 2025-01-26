@@ -17,6 +17,8 @@ import GetStarted from "./friend";
 import Navigate from "./Navigate";
 import NavigationRoundedIcon from "@mui/icons-material/NavigationRounded";
 import PersonIcon from "@mui/icons-material/Person";
+import Face from "./face"; // Import the Face component
+
 
 
 const theme = createTheme({
@@ -146,7 +148,7 @@ function App() {
 
         {/* Get Started Page */}
         <Route path="/get-started" element={<GetStarted />} />
-
+        <Route path="/face" element={<Face />} />
         <Route path="/navigate" element={<Navigate />} />
       </Routes>
 

@@ -27,14 +27,18 @@ function GetStarted() {
       </Typography>
 
       <Box sx={{ display: "flex", justifyContent: "center", marginTop: 2 }}>
-        <Button variant="outlined" color="primary" onClick ={() => SavePictureApp()}>
-          Scan My Face0
-        </Button>
+      <Button
+        variant="outlined"
+        color="primary"
+        onClick={() => navigate("/face")}
+      >
+        Scan My Face
+      </Button>
       </Box>
       
       <Box sx={{ display: "flex", justifyContent: "center", marginTop: 2 }}>
         <Button variant="outlined" color="primary" onClick={() => navigate("/")}>
-          Back to Home
+          Return to Home
         </Button>
       </Box>
 
