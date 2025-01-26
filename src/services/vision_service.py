@@ -13,7 +13,7 @@ from openai import OpenAI
 import io
 import base64
 import pyttsx3
-
+from face_recognition.face_detect import * 
 
 class VisionService:
     def __init__(self):
@@ -195,6 +195,13 @@ class VisionService:
                 # Combine warnings with LLaVA guidance
                 if warnings:
                     guidance = "; ".join(warnings) + ". " + guidance
+                
+                faces = []
+                faces = find_face(frame)
+                if faces:
+                    for face in faces:
+                        guidance += face + " is nearby."
+
                 self.audio.speak(guidance)
                 self.current_command = None
                 self.completed = True
