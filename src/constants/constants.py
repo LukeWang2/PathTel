@@ -14,6 +14,7 @@ class Paths:
     MODEL_PATH = MODELS_DIR / "yolov8n.pt"
     CONFIG_PATH = CONFIGS_DIR / "settings.yaml"
     LLAVA_PATH = MODELS_DIR / "llava-v1.5-7b-q4.gguf"
+    OPENAI_PATH = "gpt-4-vision-preview"
 
     NAV_MAP = PROJECT_ROOT / "constants" / "nav_map.npy"
 

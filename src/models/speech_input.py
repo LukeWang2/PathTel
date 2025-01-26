@@ -1,4 +1,4 @@
-from RealtimeSTT import AudioToTextRecorder
+# from RealtimeSTT import AudioToTextRecorder
 from constants.config import Config
 
 
@@ -8,10 +8,10 @@ class SpeechInput:
         speech_settings = config.get_speech_settings()
 
         self.language = speech_settings.get("language", "en")
-        self.recorder = AudioToTextRecorder(
-            model="base",
-            language=self.language,
-        )
+        # self.recorder = AudioToTextRecorder(
+        #     model="base",
+        #     language=self.language,
+        # )
         self.is_listening = False
 
     def start_listening(self):
