@@ -10,12 +10,12 @@ import time
 def process_video(vision_service, stop_event):
     """Process video in a separate thread."""
     print("Starting video processing thread...")
-    vision_service.start()  # Explicitly start the vision service
-
+    if not vision_service.is_running:  # Check if vision service is running
+            vision_service.start()
     while not stop_event.is_set():
         try:
             vision_service.process_frame()
-            time.sleep(0.1)  # Small delay to prevent CPU overuse
+            time.sleep(3)  # Small delay to prevent CPU overuse
         except Exception as e:
             print(f"Error in video thread: {str(e)}")
 
@@ -68,16 +68,16 @@ def main():
         print("System initialized successfully. Starting main loops...")
 
         # Create threads for audio and video processing
-        audio_thread = threading.Thread(
-            target=process_audio, args=(speech_input, vision_service, stop_event)
-        )
+        # audio_thread = threading.Thread(
+        #     target=process_audio, args=(speech_input, vision_service, stop_event)
+        # )
 
         video_thread = threading.Thread(
             target=process_video, args=(vision_service, stop_event)
         )
 
         # Start both threads
-        audio_thread.start()
+        # audio_thread.start()
         video_thread.start()
 
         # Wait for keyboard interrupt

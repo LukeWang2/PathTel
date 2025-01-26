@@ -1,5 +1,5 @@
 from ultralytics import YOLO
-from llama_cpp import Llama
+# from llama_cpp import Llama
 from PIL import Image
 import numpy as np
 import torch
@@ -7,6 +7,11 @@ from constants.config import Config
 from models.camera import Camera
 from models.audio_output import AudioOutput
 import cv2
+import os
+from dotenv import load_dotenv
+from openai import OpenAI
+import io
+import base64
 
 
 class VisionService:
@@ -17,19 +22,12 @@ class VisionService:
         llava_settings = config.get_llava_settings()
 
         # Initialize YOLO for object detection
-        self.model = YOLO(model_settings["path"])
+        self.model_yolo = YOLO(model_settings["path"])
         self.confidence_threshold = model_settings["confidence_threshold"]
         self.classes_of_interest = model_settings["classes_of_interest"]
 
-        # Initialize LLaVA
-        self.llava = Llama(
-            model_path=llava_settings["path"],  # You'll need to download this
-            n_gpu_layers=-1,  # Use GPU if available
-            n_ctx=2048,
-            n_batch=512,
-            verbose=False,
-        )
-
+        load_dotenv()
+        self.client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
         self.camera = None  # Initialize camera when needed
         self.audio = AudioOutput()
         self.current_command = None
@@ -52,7 +50,7 @@ class VisionService:
 
     def detect_objects(self, frame):
         """Detect objects in frame using YOLO."""
-        results = self.model(frame)
+        results = self.model_yolo(frame)
         return results
 
     def estimate_distance(self, bbox):
@@ -85,7 +83,7 @@ class VisionService:
                 box = det[:4].cpu().numpy()  # [x1, y1, x2, y2]
 
                 if conf > self.confidence_threshold:
-                    object_type = self.model.names[cls]
+                    object_type = self.model_yolo.names[cls]
                     if object_type in self.classes_of_interest:
                         distance = self.estimate_distance(box)
                         direction = self.get_object_direction(box, frame_width)
@@ -110,35 +108,45 @@ class VisionService:
             Describe the scene and suggest the best path forward."""
         else:
             return """You are an indoor navigation assistant. 
-            Describe what you see in this indoor space.
+            Provide clear, concise directions using landmarks and spatial references.
+            Make it a short sentence that is maximum 2 sentences.
             Focus on important landmarks, obstacles, and potential paths.
             Keep the description clear and concise, prioritizing safety and navigation."""
 
     def get_llava_guidance(self, frame, command=None):
         """Get navigation guidance from LLaVA."""
         try:
-            # Convert frame to PIL Image
+            prompt=self.generate_llava_prompt()
+            # Convert OpenCV frame (BGR) to PIL Image (RGB)
             image = Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
-
-            # Generate prompt
-            prompt = self.generate_llava_prompt(command)
-
-            # Get LLaVA response
-            response = self.llava.create_chat_completion(
+            
+            # Save the PIL image to a BytesIO object
+            buffer = io.BytesIO()
+            image.save(buffer, format="JPEG")
+            
+            # Encode the bytes as a Base64 string
+            base64_image = base64.b64encode(buffer.getvalue()).decode("utf-8")
+            response = self.client.chat.completions.create(
+                model="gpt-4o-mini",
                 messages=[
                     {
                         "role": "user",
                         "content": [
-                            {"type": "image", "data": image},
-                            {"type": "text", "data": prompt},
+                            {"type": "text", "text": prompt},
+                            {
+                                "type": "image_url",
+                                "image_url": {
+                                    "url": f"data:image/jpeg;base64,{base64_image}",
+                                },
+                            },
                         ],
                     }
                 ],
-                temperature=0.7,
-                max_tokens=200,
+                max_tokens=300,
             )
+            print(response.choices[0].message.content)
 
-            return response["choices"][0]["message"]["content"]
+            return response.choices[0].message.content
 
         except Exception as e:
             print(f"Error getting LLaVA guidance: {str(e)}")
