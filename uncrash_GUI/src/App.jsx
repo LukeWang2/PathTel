@@ -107,16 +107,10 @@ function App() {
                 >
                   I'm a friend of a user
                 </Button>
-                <Button 
-                  variant="contained" 
-                  color="primary">
-                  Learn More
-                </Button>
               </Box>
 
               {/* Feature Highlights */}
               <Grid container spacing={2} justifyContent="center" marginTop={4}>
-                <Grid item xs={12} sm={4}>
                   <Card>
                     <CardContent>
                       <Typography variant="h6" gutterBottom>
@@ -127,19 +121,6 @@ function App() {
                       </Typography>
                     </CardContent>
                   </Card>
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                  <Card>
-                    <CardContent>
-                      <Typography variant="h6" gutterBottom>
-                        Fast Support
-                      </Typography>
-                      <Typography variant="body2">
-                        Our team is here to help 24/7.
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </Grid>
               </Grid>
             </Container>
           }
