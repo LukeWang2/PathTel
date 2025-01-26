@@ -1,5 +1,6 @@
 from constants.config import Config
 from services.vision_service import VisionService
+from services.navigation_service import run_nav
 from utils.model_download import download_models
 from models.speech_input import SpeechInput
 import threading

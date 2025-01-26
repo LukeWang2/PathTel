@@ -15,6 +15,8 @@ class Paths:
     CONFIG_PATH = CONFIGS_DIR / "settings.yaml"
     LLAVA_PATH = MODELS_DIR / "llava-v1.5-7b-q4.gguf"
 
+    NAV_MAP = PROJECT_ROOT / "constants" / "nav_map.npy"
+
     @classmethod
     def ensure_dirs_exist(cls):
         """Create all necessary directories if they don't exist."""
@@ -23,5 +25,6 @@ class Paths:
             cls.MODELS_DIR,
             cls.CONFIGS_DIR,
             cls.LLAVA_PATH,
+            cls.NAV_MAP,
         ]:
             directory.mkdir(parents=True, exist_ok=True)
